@@ -13,32 +13,6 @@ const agent = new BskyAgent({
   persistSession: (evt, sess) => {},
 });
 
-async function getFollowers() {
-  await agent.login({
-    identifier: user,
-    password: pass,
-  });
-
-  const profile = await agent.getProfile({ actor: "alasdairb.com" });
-  const follow_count = profile.data.followsCount ?? 0;
-
-  let followers: Array<any> = [];
-
-  let cursor: string | undefined = undefined;
-  while (true) {
-    if (follow_count == 0 || followers.length >= follow_count) break;
-    let response = await agent.getFollowers({
-      actor: "alasdairb.com",
-      limit: 100,
-      cursor: cursor,
-    });
-    console.log(`Getting followers...${followers.length}`);
-    followers.push(...response.data.followers);
-    cursor = response.data.cursor;
-  }
-  console.log(followers.length);
-}
-
 async function followAll() {
   await agent.login({
     identifier: user,
@@ -64,11 +38,11 @@ async function followAll() {
         console.log(`Following: ${e.did}`);
         let r = await agent.follow(e.did);
         console.log(r);
-        await new Promise((f) => setTimeout(f, 1000));
+        await new Promise((f) => setTimeout(f, 50));
       }
       users += response.data.actors.length;
       cursor = response.data.cursor;
-      await new Promise((f) => setTimeout(f, 2000));
+      await new Promise((f) => setTimeout(f, 50));
     }
   }
 }
