@@ -13,9 +13,9 @@ const agent = new BskyAgent({
   persistSession: (evt, sess) => {},
 });
 
-let followers: Array<any> = [];
+let follows: Array<any> = [];
 
-async function getFollowers() {
+async function getfollows() {
   await agent.login({
     identifier: user,
     password: pass,
@@ -26,36 +26,19 @@ async function getFollowers() {
 
   let cursor: string | undefined = undefined;
   while (true) {
-    if (follow_count == 0 || followers.length >= follow_count) break;
-    let response = await agent.getFollowers({
+    if (follow_count == 0 || follows.length >= follow_count) break;
+    let response = await agent.getFollows({
       actor: "alasdairb.com",
       limit: 100,
       cursor: cursor,
     });
-    console.log(`Getting followers...${followers.length}`);
-    followers.push(...response.data.followers);
+    console.log(`Got follows...${response.data.follows.length}`);
+    follows.push(...response.data.follows);
+    console.log(`Total follows...${follows.length}`);
     cursor = response.data.cursor;
     await new Promise((f) => setTimeout(f, 50));
   }
-  console.log(followers.length);
 }
-
-// async function getFollowers() {
-//   await agent.login({
-//     identifier: user,
-//     password: pass,
-//   });
-
-//   const profile = await agent.getProfile({ actor: "alasdairb.com" });
-
-//   let response = await agent.getFollowers({
-//     actor: "alasdairb.com",
-//     limit: 10,
-//   });
-//   console.log(`Getting followers...${followers.length}`);
-//   followers.push(...response.data.followers);
-//   console.log(followers.length);
-// }
 
 async function deleteFollows() {
   await agent.login({
@@ -65,13 +48,20 @@ async function deleteFollows() {
 
   console.log("delete");
   let i = 0;
-  for (let follower of followers) {
+  for (let follower of follows) {
     console.log(i);
     i++;
-    if (!follower.viewer.following) continue;
+    if (follower.viewer.following == undefined) {
+      console.log("Skipping");
+      continue;
+    }
     let response = await agent.deleteFollow(follower.viewer.following);
+    console.log(response);
     await new Promise((f) => setTimeout(f, 50));
   }
 }
 
-getFollowers().then(() => deleteFollows());
+getfollows().then(() => {
+  console.log(follows.length);
+  deleteFollows();
+});
