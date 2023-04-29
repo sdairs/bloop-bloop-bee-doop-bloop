@@ -49,12 +49,13 @@ async function followAll() {
   const alphabets = [...Array(26).keys()].map((n) =>
     String.fromCharCode(97 + n)
   );
+  const numbers = ["1", "2", "3", "4", "5", "6", "7", "8", "9"];
   while (true) {
-    for (let letter of alphabets) {
-      console.log(letter);
+    for (let searchTerm of alphabets.concat(numbers)) {
+      console.log(searchTerm);
       let response: any = await agent
         .searchActors({
-          term: letter,
+          term: searchTerm,
           limit: 100,
           cursor: cursor,
         })
