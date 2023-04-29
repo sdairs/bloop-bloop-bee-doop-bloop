@@ -2,19 +2,19 @@ lockfileVersion: '6.0'
 
 dependencies:
   '@atproto/api':
-    specifier: ^0.2.10
+    specifier: ^0.2.11
     version: 0.2.11
   dotenv:
     specifier: ^16.0.3
     version: 16.0.3
+  typescript:
+    specifier: ^5.0.4
+    version: 5.0.4
 
 devDependencies:
   ts-node:
     specifier: ^10.9.1
     version: 10.9.1(@types/node@18.16.3)(typescript@5.0.4)
-  typescript:
-    specifier: ^5.0.0
-    version: 5.0.4
 
 packages:
 
@@ -215,7 +215,6 @@ packages:
     resolution: {integrity: sha512-cW9T5W9xY37cc+jfEnaUvX91foxtHkza3Nw3wkoF4sSlKn0MONdkdEndig/qPBWXNkmplh3NzayQzCiHM4/hqw==}
     engines: {node: '>=12.20'}
     hasBin: true
-    dev: true
 
   /uint8arrays@3.0.0:
     resolution: {integrity: sha512-HRCx0q6O9Bfbp+HHSfQQKD7wU70+lydKVt4EghkdOvlK/NlrF90z+eXV34mUd48rNvVJXwkrMSPpCATkct8fJA==}

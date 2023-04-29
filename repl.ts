@@ -3,8 +3,8 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-const user: string = process.env.USER ?? "";
-const pass: string = process.env.PASS ?? "";
+const user: string = process.env.ATP_USER ?? "";
+const pass: string = process.env.ATP_PASS ?? "";
 
 if (user == "" || pass == "") process.exit();
 

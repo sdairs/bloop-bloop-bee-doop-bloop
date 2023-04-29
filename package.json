@@ -4,12 +4,11 @@
 	"private": true,
 	"scripts": {},
 	"devDependencies": {
-		"ts-node": "^10.9.1",
-		"typescript": "^5.0.0"
+		"ts-node": "^10.9.1"
 	},
-	"type": "module",
 	"dependencies": {
-		"@atproto/api": "^0.2.10",
-		"dotenv": "^16.0.3"
+		"@atproto/api": "^0.2.11",
+		"dotenv": "^16.0.3",
+		"typescript": "^5.0.4"
 	}
 }
