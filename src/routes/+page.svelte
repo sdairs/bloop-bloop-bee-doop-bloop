@@ -8,8 +8,8 @@
 
   async function getFollowers() {
     await agent.login({
-      identifier: "alasdairb.com",
-      password: "nzfb-buwt-hyx4-lejl",
+      identifier: import.meta.env.VITE_USER,
+      password: import.meta.env.VITE_PASS,
     });
 
     const profile = await agent.getProfile({ actor: "alasdairb.com" });
@@ -56,8 +56,6 @@
       await new Promise((f) => setTimeout(f, 5000));
     }
   }
-  //   getAllActors();
-  //   getFollowers();
 </script>
 
 <h1>hello</h1>
