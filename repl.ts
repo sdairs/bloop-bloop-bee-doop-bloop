@@ -1,10 +1,12 @@
 import { BskyAgent } from "@atproto/api";
 import dotenv from "dotenv";
 
-dotenv.config()
+dotenv.config();
 
-const user: string = process.env.USER;
-const pass: string = process.env.PASS;
+const user: string = process.env.USER ?? "";
+const pass: string = process.env.PASS ?? "";
+
+if (user == "" || pass == "") process.exit();
 
 const agent = new BskyAgent({
   service: "https://bsky.social",
@@ -13,8 +15,8 @@ const agent = new BskyAgent({
 
 async function getFollowers() {
   await agent.login({
-    identifier: user, 
-    password: pass
+    identifier: user,
+    password: pass,
   });
 
   const profile = await agent.getProfile({ actor: "alasdairb.com" });
@@ -44,24 +46,28 @@ async function followAll() {
   });
   let cursor: string | undefined = undefined;
   let users = 0;
-  const alphabets = [...Array(26).keys()].map((n) => String.fromCharCode(97 + n));
+  const alphabets = [...Array(26).keys()].map((n) =>
+    String.fromCharCode(97 + n)
+  );
   while (true) {
     for (let letter of alphabets) {
-        console.log(letter);
-        let response: any = await agent.searchActors({
-                term: letter,
-                limit: 100,
-                cursor: cursor,
-        }).catch((e) => console.log(e));
-        for (let e of response.data.actors) {
-                console.log(`Following: ${e.did}`);
-                let r = await agent.follow(e.did);
-                console.log(r);
-                await new Promise((f) => setTimeout(f, 1000));
-        }
-        users += response.data.actors.length;
-        cursor = response.data.cursor;
-        await new Promise((f) => setTimeout(f, 2000));
+      console.log(letter);
+      let response: any = await agent
+        .searchActors({
+          term: letter,
+          limit: 100,
+          cursor: cursor,
+        })
+        .catch((e) => console.log(e));
+      for (let e of response.data.actors) {
+        console.log(`Following: ${e.did}`);
+        let r = await agent.follow(e.did);
+        console.log(r);
+        await new Promise((f) => setTimeout(f, 1000));
+      }
+      users += response.data.actors.length;
+      cursor = response.data.cursor;
+      await new Promise((f) => setTimeout(f, 2000));
     }
   }
 }
